@@ -61,7 +61,7 @@ def send_request(sckt, req):
 def get_request(client_connection, client_address):
     while True:
         data = client_connection.recv(pcktSize)
-        print(client_address+": "+data.decode('utf-8'))
+        print(client_address, ": ", data.decode('utf-8'))
         if not data:
             break
         else:
