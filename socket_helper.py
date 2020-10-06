@@ -62,10 +62,11 @@ def send_request(sckt, req):
 def get_request(client_connection, client_address):
     while True:
         data = client_connection.recv(pcktSize)
-        print(client_address, ":", data.decode('utf-8'))
         if not data:
+            print(client_address, ": Client disconnected")
             break
         else:
+            print(client_address, ":", data.decode('utf-8'))
             server_request_handler(data.decode('utf-8'), client_address)
     return
 
@@ -100,7 +101,6 @@ def client_request_handler(ctrl_sckt, req_arr):
         ds.close()
     elif req_arr[0] == 'quit':
         print("Bye")
-        send_request(ctrl_sckt, "quit")
         sys.exit()
     else:
         print("Unknown command")
@@ -127,8 +127,6 @@ def server_request_handler(req, client_address):
         ds.connect((clientIP,dataPort))
         get_file(ds, req_arr[1])
         ds.close()
-    elif req_arr[0] == 'quit':
-        return
     else:
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
