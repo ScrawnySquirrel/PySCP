@@ -18,6 +18,7 @@ pcktSize = 1024
 
 def socket_bind_listen(host, port):
     sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sckt.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sckt.bind((host, port))
     sckt.listen(5)
     return sckt
