@@ -71,7 +71,7 @@ def get_request(client_connection, client_address):
     return
 
 def client_request_handler(ctrl_sckt, req_arr):
-    if len(req_arr) <= 0:
+    if req_arr is None:
         return
     elif req_arr[0] == 'list':
         send_request(ctrl_sckt, stringify_list(req_arr))
@@ -136,8 +136,10 @@ def server_request_handler(req, client_address):
 
 def get_user_input():
     input_str = input("Command: ")
-    input_arr = tokenize_string(input_str)
-    return input_arr
+    if input_str:
+        input_arr = tokenize_string(input_str)
+        return input_arr
+    return
 
 def tokenize_string(str):
     arr = str.split()
