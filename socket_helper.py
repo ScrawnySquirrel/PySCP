@@ -120,7 +120,7 @@ def server_request_handler(req, client_address):
         if os.path.exists(dirPath+"/"+req_arr[1]):
             send_file(ds, req_arr[1])
         else:
-            send_data(dsConnection, "File not found")
+            send_data(ds, "File not found")
         ds.close()
     elif req_arr[0] == 'send':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
