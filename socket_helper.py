@@ -23,7 +23,7 @@ def socket_bind_listen(host, port):
     return sckt
 
 def send_data(sckt, data):
-    sckt.sendall(data)
+    sckt.sendall(data.encode('utf-8'))
     return
 
 def get_data(sckt):
@@ -90,7 +90,10 @@ def client_request_handler(ctrl_sckt, req_arr):
         send_request(ctrl_sckt, stringify_list(req_arr))
         ds = socket_bind_listen(dataHost, dataPort)
         dsConnection, dsAddress = ds.accept()
-        send_file(dsConnection, req_arr[1])
+        if os.path.exists(dirPath+"/"+req_arr[1]):
+            send_file(dsConnection, req_arr[1])
+        else:
+            print("File not found")
         ds.close()
     elif req_arr[0] == 'quit':
         print("Bye")
@@ -105,12 +108,15 @@ def server_request_handler(req, client_address):
     if req_arr[0] == 'list':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
-        send_data(ds, server_list_files().encode('utf-8'))
+        send_data(ds, server_list_files())
         ds.close()
     elif req_arr[0] == 'get':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
-        send_file(ds, req_arr[1])
+        if os.path.exists(dirPath+"/"+req_arr[1]):
+            send_file(ds, req_arr[1])
+        else:
+            send_data(dsConnection, "File not found")
         ds.close()
     elif req_arr[0] == 'send':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
