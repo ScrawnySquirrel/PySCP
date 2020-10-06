@@ -142,7 +142,7 @@ def tokenize_string(str):
     return arr
 
 def stringify_list(arr):
-    str = " "
+    str = "\n"
     return str.join(arr)
 
 def create_fileshare():
