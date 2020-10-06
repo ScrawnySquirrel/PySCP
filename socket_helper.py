@@ -58,13 +58,14 @@ def send_request(sckt, req):
     sckt.sendall(req.encode('utf-8'))
     return
 
-def get_request(client_connection):
+def get_request(client_connection, client_address):
     while True:
         data = client_connection.recv(pcktSize)
+        print(client_address+": "+data.decode('utf-8'))
         if not data:
             break
         else:
-            server_request_handler(data.decode('utf-8'))
+            server_request_handler(data.decode('utf-8'), client_address)
     return
 
 def client_request_handler(ctrl_sckt, req_arr):
@@ -74,7 +75,6 @@ def client_request_handler(ctrl_sckt, req_arr):
         dsConnection, dsAddress = ds.accept()
         get_data(dsConnection)
     elif req_arr[0] == 'get':
-        print("get")
         if len(req_arr) < 2:
             print("Not enough parameters")
             return
@@ -84,7 +84,6 @@ def client_request_handler(ctrl_sckt, req_arr):
         get_file(dsConnection, req_arr[1])
         ds.close()
     elif req_arr[0] == 'send':
-        print("send")
         if len(req_arr) < 2:
             print("Not enough parameters")
             return
@@ -100,7 +99,8 @@ def client_request_handler(ctrl_sckt, req_arr):
         print("Unknown command")
     return
 
-def server_request_handler(req):
+def server_request_handler(req, client_address):
+    clientIP=client_address
     req_arr = tokenize_string(req)
     if req_arr[0] == 'list':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -108,13 +108,11 @@ def server_request_handler(req):
         send_data(ds, server_list_files().encode('utf-8'))
         ds.close()
     elif req_arr[0] == 'get':
-        print("get")
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
         send_file(ds, req_arr[1])
         ds.close()
     elif req_arr[0] == 'send':
-        print("send")
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
         get_file(ds, req_arr[1])
@@ -147,4 +145,6 @@ def create_fileshare():
 
 def server_list_files():
     files = os.listdir(dirPath)
+    if len(files) <= 0:
+        return "No file(s) found"
     return stringify_list(files)

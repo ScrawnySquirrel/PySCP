@@ -13,10 +13,9 @@ def main(argv):
     while True:
         csConnection, csAddress = cs.accept()
         print('Client Connection:', csAddress)
-        dsHost = csAddress
-        sh.get_request(csConnection)
-        # csConnection.close()
-        # dsConnection.close()
+        sh.get_request(csConnection, csAddress)
+
+    cs.close()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

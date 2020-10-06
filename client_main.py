@@ -11,8 +11,13 @@ def main(argv):
     parser.add_argument('-i', '--ip', help='the server IP')
     args = parser.parse_args()
 
+    if args.ip is not None:
+        server = args.ip
+    else:
+        server = sh.serverIP
+
     cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    cs.connect((sh.serverIP, sh.controlPort))
+    cs.connect((server, sh.controlPort))
 
     sh.create_fileshare()
 
