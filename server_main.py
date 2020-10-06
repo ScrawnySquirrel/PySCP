@@ -12,7 +12,7 @@ def main(argv):
 
     while True:
         csConnection, csAddress = cs.accept()
-        print('Client Connection:', csAddress)
+        print(csAddress, ": Client connected" )
         sh.get_request(csConnection, csAddress)
 
     cs.close()

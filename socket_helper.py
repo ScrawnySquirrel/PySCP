@@ -98,6 +98,7 @@ def client_request_handler(ctrl_sckt, req_arr):
         ds.close()
     elif req_arr[0] == 'quit':
         print("Bye")
+        send_request(ctrl_sckt, "quit")
         sys.exit()
     else:
         print("Unknown command")
