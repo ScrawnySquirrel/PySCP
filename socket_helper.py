@@ -70,7 +70,9 @@ def get_request(client_connection, client_address):
     return
 
 def client_request_handler(ctrl_sckt, req_arr):
-    if req_arr[0] == 'list':
+    if len(req_arr) <= 0:
+        return
+    elif req_arr[0] == 'list':
         send_request(ctrl_sckt, stringify_list(req_arr))
         ds = socket_bind_listen(dataHost, dataPort)
         dsConnection, dsAddress = ds.accept()
