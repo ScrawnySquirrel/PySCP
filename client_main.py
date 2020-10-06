@@ -7,8 +7,8 @@ import socket_helper as sh
 
 def main(argv):
 
-    parser = argparse.ArgumentParser(description='')
-    parser.add_argument('-i', '--ip', help='the server IP')
+    parser = argparse.ArgumentParser(description='Python client/server application to GET/SEND files.')
+    parser.add_argument('-i', '--ip', help='the server IP', required=True)
     args = parser.parse_args()
 
     if args.ip is not None:
