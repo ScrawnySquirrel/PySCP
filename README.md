@@ -8,8 +8,18 @@ These instructions will guide how to GET/SEND files between the client and the s
 * Python3
 
 ## Usage
-### Client
+The server needs to be running first before the client can start up.
+
 ### Server
+To start the server:
+```
+python3 server_main.py
+```
+### Client
+To start the client, server's IP must be passed:
+```
+python3 client_main.py -i 192.168.1.69
+```
 
 ## Author
 
