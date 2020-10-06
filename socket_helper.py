@@ -61,7 +61,7 @@ def send_request(sckt, req):
 def get_request(client_connection, client_address):
     while True:
         data = client_connection.recv(pcktSize)
-        print(client_address, ": ", data.decode('utf-8'))
+        print(client_address, ":", data.decode('utf-8'))
         if not data:
             break
         else:
@@ -100,7 +100,7 @@ def client_request_handler(ctrl_sckt, req_arr):
     return
 
 def server_request_handler(req, client_address):
-    clientIP=client_address
+    clientIP=client_address[0]
     req_arr = tokenize_string(req)
     if req_arr[0] == 'list':
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
