@@ -127,6 +127,8 @@ def server_request_handler(req, client_address):
         ds.connect((clientIP,dataPort))
         get_file(ds, req_arr[1])
         ds.close()
+    elif req_arr[0] == 'quit':
+        return
     else:
         ds = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ds.connect((clientIP,dataPort))
